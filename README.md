@@ -1,2 +1,2 @@
 # testing-website
-a website to test different changes in VS Code
+a  Django website to test different changes in VS Code
