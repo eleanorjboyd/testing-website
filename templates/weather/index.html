@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Channel - Local Forecast</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/retro-weather.css' %}">
+</head>
+<body>
+    <!-- Scrolling Weather Alerts Bar -->
+    <div class="alerts-bar">
+        <div class="alerts-container">
+            <div class="alerts-ticker" id="alertsTicker">
+                <span class="alert-text">⚠️ WEATHER ALERTS</span>
+                <span class="alert-text">• LOCAL FORECAST UPDATED EVERY 10 MINUTES •</span>
+                <span class="alert-text">• CURRENT CONDITIONS FOR YOUR AREA •</span>
+                <span class="alert-text">• VISIT WEATHER.COM FOR MORE INFORMATION •</span>
+                <span class="alert-text">⚠️ WEATHER ALERTS</span>
+                <span class="alert-text">• LOCAL FORECAST UPDATED EVERY 10 MINUTES •</span>
+                <span class="alert-text">• CURRENT CONDITIONS FOR YOUR AREA •</span>
+                <span class="alert-text">• VISIT WEATHER.COM FOR MORE INFORMATION •</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="channel-logo">THE WEATHER CHANNEL</h1>
+            <p class="tagline">Local on the 8s</p>
+        </div>
+    </header>
+
+    <!-- Current Time Display -->
+    <div class="time-display">
+        <div id="currentTime"></div>
+    </div>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <form action="{% url 'search_weather' %}" method="get" class="search-form">
+                <input 
+                    type="text" 
+                    name="city" 
+                    placeholder="Enter your city..." 
+                    value="{{ city }}"
+                    class="search-input"
+                    required
+                >
+                <button type="submit" class="search-button">GET WEATHER</button>
+            </form>
+        </div>
+    </section>
+
+    {% if error %}
+    <!-- Error Message -->
+    <div class="error-message">
+        <p>⚠️ {{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if weather_data %}
+    <!-- Main Weather Display -->
+    <main class="weather-main">
+        <!-- Current Conditions Panel -->
+        <div class="current-conditions">
+            <div class="location-header">
+                <h2>{{ weather_data.city }}, {{ weather_data.country }}</h2>
+                <p class="update-time">AS OF <span id="updateTime"></span></p>
+            </div>
+
+            <div class="current-temp-display">
+                <div class="temp-large">
+                    <span class="temperature">{{ weather_data.temperature }}°</span>
+                    <span class="temp-unit">C</span>
+                </div>
+                <div class="condition-info">
+                    <p class="condition-text">{{ weather_data.description }}</p>
+                    <p class="feels-like">FEELS LIKE {{ weather_data.feels_like }}°C</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Details Grid -->
+        <div class="weather-details-grid">
+            <div class="detail-box">
+                <div class="detail-icon">💧</div>
+                <div class="detail-content">
+                    <span class="detail-label">HUMIDITY</span>
+                    <span class="detail-value">{{ weather_data.humidity }}%</span>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-icon">💨</div>
+                <div class="detail-content">
+                    <span class="detail-label">WIND SPEED</span>
+                    <span class="detail-value">{{ weather_data.wind_speed }} km/h</span>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-icon">🌡️</div>
+                <div class="detail-content">
+                    <span class="detail-label">FEELS LIKE</span>
+                    <span class="detail-value">{{ weather_data.feels_like }}°C</span>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <div class="detail-icon">🌤️</div>
+                <div class="detail-content">
+                    <span class="detail-label">CONDITIONS</span>
+                    <span class="detail-value conditions-value">{{ weather_data.description }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Explanations Section -->
+        <div class="explanations-section">
+            <h3 class="section-title">UNDERSTANDING YOUR WEATHER</h3>
+            
+            <div class="explanation-card">
+                <h4>🌡️ Temperature</h4>
+                <p>Current temperature is <strong>{{ weather_data.temperature }}°C</strong>. This measures the warmth or coldness of the air around you.</p>
+            </div>
+
+            <div class="explanation-card">
+                <h4>🤔 Feels Like Temperature</h4>
+                <p>It feels like <strong>{{ weather_data.feels_like }}°C</strong>. This accounts for wind chill and humidity, giving you a more accurate sense of how it feels outside.</p>
+            </div>
+
+            <div class="explanation-card">
+                <h4>💧 Humidity</h4>
+                <p>Humidity is at <strong>{{ weather_data.humidity }}%</strong>. This shows how much moisture is in the air. Higher humidity makes it feel warmer and can make you feel sticky.</p>
+            </div>
+
+            <div class="explanation-card">
+                <h4>💨 Wind Speed</h4>
+                <p>Wind is blowing at <strong>{{ weather_data.wind_speed }} km/h</strong>. Wind affects how cold it feels and can make umbrellas difficult to use!</p>
+            </div>
+        </div>
+    </main>
+    {% else %}
+    <!-- Welcome Message -->
+    <div class="welcome-section">
+        <div class="welcome-content">
+            <h2>WELCOME TO THE WEATHER CHANNEL</h2>
+            <p class="welcome-text">Enter your city above to get your local forecast</p>
+            <div class="welcome-icons">
+                <span class="weather-icon">☀️</span>
+                <span class="weather-icon">⛅</span>
+                <span class="weather-icon">🌧️</span>
+                <span class="weather-icon">⛈️</span>
+                <span class="weather-icon">❄️</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Bottom Info Bar -->
+    <footer class="bottom-bar">
+        <div class="bottom-content">
+            <span>LOCAL FORECAST</span>
+            <span>•</span>
+            <span>UPDATED CONTINUOUSLY</span>
+            <span>•</span>
+            <span>WEATHER.COM</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/retro-weather.js' %}"></script>
+</body>
+</html>
