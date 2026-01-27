@@ -29,9 +29,19 @@
         <div class="header-content">
             <h1 class="channel-logo">THE WEATHER CHANNEL</h1>
             <p class="tagline">Local on the 8s</p>
+            <a href="{% url 'random_weather' %}" class="random-weather-link">🌎 See Random Place's Weather</a>
         </div>
     </header>
 
+    <!-- Top Cities Section -->
+    <section class="top-cities">
+        <h3>🌍 Top Cities</h3>
+        <div class="top-cities-list">
+            {% for top_city in top_cities %}
+                <a href="{% url 'search_weather' %}?city={{ top_city }}" class="top-city-link">{{ top_city }}</a>
+            {% endfor %}
+        </div>
+    </section>
     <!-- Current Time Display -->
     <div class="time-display">
         <div id="currentTime"></div>
@@ -62,6 +72,26 @@
     {% endif %}
 
     {% if weather_data %}
+    {% if weather_data.alerts and weather_data.alerts|length > 0 %}
+    <section class="weather-warnings">
+        <h3>⚠️ Weather Warnings</h3>
+        <ul>
+        {% for alert in weather_data.alerts %}
+            <li><strong>{{ alert.event }}</strong>: {{ alert.description }}</li>
+        {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+    {% if nearby_cities and nearby_cities|length > 0 %}
+    <section class="nearby-cities">
+        <h3>Nearby Cities</h3>
+        <ul>
+        {% for ncity in nearby_cities %}
+            <li><a href="{% url 'search_weather' %}?city={{ ncity.name }}">{{ ncity.name }}, {{ ncity.country }} ({{ ncity.temperature }}°C)</a></li>
+        {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
     <!-- Main Weather Display -->
     <main class="weather-main">
         <!-- Current Conditions Panel -->
