@@ -7,8 +7,22 @@ A Django web application that explains weather data in an easy-to-understand for
 - 🌍 Search weather for any city worldwide
 - 🌡️ View temperature, humidity, wind speed, and more
 - 📚 Educational explanations of weather metrics
-- 🎨 Beautiful, responsive UI
+- 🎨 Beautiful, responsive retro UI (2000s Weather Channel aesthetic)
 - 🔄 Real-time weather data from OpenWeatherMap API
+
+## Design System
+
+This project features a comprehensive retro Weather Channel design system with vibrant blues, bold yellows, and playful animations. For detailed documentation of all design patterns, components, colors, and guidelines, see:
+
+**📖 [STYLE_GUIDE.md](STYLE_GUIDE.md)**
+
+The style guide includes:
+- Complete color palette with hex codes
+- 11 documented UI components
+- Typography system and spacing standards
+- Animation and interaction patterns
+- Responsive design breakpoints
+- Code examples and usage guidelines
 
 ## Setup
 
